@@ -1,70 +1,69 @@
 <template>
-    <div class="manufacturer-create">
-      <h1 class="title">Create New Manufacturer</h1>
-      <form @submit.prevent="createManufacturer" class="form">
-        <div class="form-group">
-          <label>Name</label>
-          <input v-model="newManufacturer.name" type="text" required />
-        </div>
-        <div class="form-group">
-          <label>Country</label>
-          <input v-model="newManufacturer.country" type="text" required />
-        </div>
-        <div class="form-group">
-          <label>Founded Year</label>
-          <input v-model="newManufacturer.founded_year" type="number" required />
-        </div>
-        <div class="form-group">
-          <label>Description</label>
-          <textarea v-model="newManufacturer.description" required></textarea>
-        </div>
-        <div class="form-group">
-          <label>Logo URL</label>
-          <input v-model="newManufacturer.logo" type="text" required />
-        </div>
-        <button type="submit" class="button save-button">Create Manufacturer</button>
-        <br/><br/>
-        <router-link to="/manufactureList" class="button back-button">Cancel creation</router-link>
-      </form>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        newManufacturer: {
-          name: '',
-          country: '',
-          founded_year: null,
-          description: '',
-          logo: 'manufacturers/lamborghini-logo.jpg'
-        }
-      };
-    },
-    methods: {
-      createManufacturer() {
-        fetch('https://supercar24.netlify.app/.netlify/functions/manufacturerInsert', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(this.newManufacturer)
-        })
-          .then(() => {
-            alert('Manufacturer created successfully');
-            this.$router.push('/manufactureList');
-          })
-          .catch(error => {
-            console.error('Error creating manufacturer:', error);
-          });
-      }
-    }
-  };
-  </script>
-  
-  <style scoped>
+  <div class="manufacturer-create">
+    <h1 class="title">Create New Manufacturer</h1>
+    <form @submit.prevent="createManufacturer" class="form">
+      <div class="form-group">
+        <label>Name</label>
+        <input v-model="newManufacturer.name" type="text" required />
+      </div>
+      <div class="form-group">
+        <label>Country</label>
+        <input v-model="newManufacturer.country" type="text" required />
+      </div>
+      <div class="form-group">
+        <label>Founded Year</label>
+        <input v-model="newManufacturer.founded_year" type="number" required />
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea v-model="newManufacturer.description" required></textarea>
+      </div>
+      <div class="form-group">
+        <label>Logo URL</label>
+        <input v-model="newManufacturer.logo" type="text" required />
+      </div>
+      <button type="submit" class="button save-button">Create Manufacturer</button>
+      <br /><br />
+      <router-link to="/manufactureList" class="button back-button">Cancel creation</router-link>
+    </form>
+  </div>
+</template>
 
+<script>
+export default {
+  data() {
+    return {
+      newManufacturer: {
+        name: '',
+        country: '',
+        founded_year: null,
+        description: '',
+        logo: 'manufacturers/manufactureNew.jpg', 
+      },
+    };
+  },
+  methods: {
+    createManufacturer() {
+      fetch('https://supercar24.netlify.app/.netlify/functions/manufacturerInsert', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(this.newManufacturer),
+      })
+        .then(() => {
+          alert('Manufacturer created successfully');
+          this.$router.push('/manufactureList');
+        })
+        .catch((error) => {
+          console.error('Error creating manufacturer:', error);
+        });
+    },
+  },
+};
+</script>
+
+<style scoped>
 .manufacturer-create {
   display: flex;
   flex-direction: column;
@@ -130,5 +129,4 @@ button {
 .button:hover {
   opacity: 0.8;
 }
-  </style>
-  
+</style>
