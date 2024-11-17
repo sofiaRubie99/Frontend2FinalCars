@@ -18,11 +18,7 @@
         <label>Born Year</label>
         <input v-model="newDesigner.born_year" type="number" required />
       </div>
-      <div class="form-group">
-        <label>Image URL</label>
-        <input v-model="newDesigner.image" type="text" required />
-      </div>
-      <button type="submit" class="button save-button">Create Designer</button><br/><br/>
+      <button type="submit" class="button save-button">Create Designer</button><br /><br />
       <router-link to="/designerList" class="button back-button">Cancel creation</router-link>
     </form>
   </div>
@@ -37,20 +33,26 @@ export default {
         nationality: "",
         description: "",
         born_year: null,
-        image: "",
+        image: "", 
       },
     };
   },
   methods: {
     async createDesigner() {
-      // Verificar que los campos estén llenos
-      const { name, nationality, description, born_year, image } = this.newDesigner;
-      if (!name || !nationality || !description || !born_year || !image) {
-        alert("Please fill in all fields");
-        return;
-      }
-
       try {
+      
+        if (!this.newDesigner.image) {
+          this.newDesigner.image = "designers/designerNew.jpg";
+        }
+
+   
+        const { name, nationality, description, born_year } = this.newDesigner;
+        if (!name || !nationality || !description || !born_year) {
+          alert("Please fill in all required fields");
+          return;
+        }
+
+     
         const response = await fetch(
           "https://supercar24.netlify.app/.netlify/functions/designerInsert",
           {
@@ -58,7 +60,7 @@ export default {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(this.newDesigner), // No necesita estar dentro de un array
+            body: JSON.stringify(this.newDesigner),
           }
         );
 
@@ -68,7 +70,7 @@ export default {
 
         const result = await response.json();
         alert("Designer created successfully");
-        this.$router.push("/designerList"); // Redirigir a la lista de diseñadores
+        this.$router.push("/designerList");
       } catch (error) {
         console.error("Error creating designer:", error);
         alert("There was an error creating the designer. Please try again.");
